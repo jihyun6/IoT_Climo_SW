@@ -46,7 +46,7 @@ Thumbs.db
 
 # 개발 환경 관련
 .env
-.config
+config.py
 .config/
 .vscode/
 .idea/
