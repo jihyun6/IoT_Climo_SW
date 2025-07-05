@@ -4,18 +4,22 @@ import axios from 'axios';
 
 export default function App() {
   const [username, setUsername] = useState('');
-  const [faceImage, setFaceImage] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [userImg, setUserImg] = useState('');
 
   const registerUser = async () => {
-    if (!username || !faceImage) {
-      Alert.alert('입력 누락', '이름과 이미지 URL을 입력해주세요.');
+    if (!username || !password || !email ||!userImg) {
+      Alert.alert('입력 누락', '이름, 비밀번호, 이메일을 모두 입력해주세요.');
       return;
     }
 
     try {
-      const response = await axios.post('http://192.168.45.171:5000/api/user/register', {
+      const response = await axios.post('http://192.168.45.56:5000/user/register', {
         username,
-        face_image: faceImage,
+        password,
+        email,
+        userImg,
       });
       Alert.alert('결과', response.data.message);
     } catch (err) {
@@ -34,12 +38,30 @@ export default function App() {
         onChangeText={setUsername}
       />
 
-      <Text style={styles.label}>이미지 URL</Text>
+      <Text style={styles.label}>비밀번호</Text>
       <TextInput
         style={styles.input}
-        placeholder="https://example.com/image.jpg"
-        value={faceImage}
-        onChangeText={setFaceImage}
+        placeholder="비밀번호"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+
+      <Text style={styles.label}>이메일</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="user@email.com"
+        keyboardType="email-address"
+        value={email}
+        onChangeText={setEmail}
+      />
+
+      <Text style={styles.label}>사진</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="파일첨부"
+        value={userImg}
+        onChangeText={setUserImg}
       />
 
       <Button title="사용자 등록" onPress={registerUser} />
@@ -62,5 +84,6 @@ const styles = StyleSheet.create({
     borderColor: '#aaa',
     padding: 8,
     borderRadius: 4,
+    marginBottom: 8,
   },
 });
